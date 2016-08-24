@@ -2,8 +2,9 @@
     'use strict';
     if(window.LaPa)return;
     function init() {
+        var PAWS=decodeURI('%F0%9F%90%BE');
         var LaPa = window.LaPa = {};
-        LaPa['🐾']={'major':3,'minor':0,'build':12,'stable':false,'stage':'dev',toString: function() {
+        LaPa[PAWS]={'major':3,'minor':0,'build':12,'stable':false,'stage':'dev',toString: function() {
             return 'LaPa Web App FrameWork ' + this.major+'.'+this.minor+'.'+this.stage+'.'+this.build;
         }};
         var CONF = LaPa.CONF = LaPa.CONF || {};
@@ -12,7 +13,7 @@
         var activeHooks = {};
         LaPa.historyAPI = {
             'state': function (data) {
-                if (data.state.page)LaPa.page(data.state.page);
+                if (data.page)LaPa.page(data.page,true);
             },
             'push': function (id, title, url) {
                 history.pushState({'page': id}, title, url ? url : id);
@@ -64,8 +65,7 @@
                 return true;
             }
             var xhr = new XMLHttpRequest();
-            if(fromRepo)path='http://🐾.oqoa.ru'+path;
-            xhr.open('GET', path + '?rnd=' + new Date().getTime(), true);
+            xhr.open('GET', (fromRepo?'http://'+PAWS+'.oqoa.ru'+('/lib/'+path.split('/').reverse()[0]):path) + '?rnd=' + new Date().getTime(), true);
             xhr.responseType = 'text';
             xhr.onload = function () {
                 if (this.status == 200) {
@@ -79,9 +79,11 @@
             };
             xhr.send();
         };
+        LaPa.message=function (text) {
+            alert(text); // TODO: Extend by user-defined Message containers
+        };
         LaPa.init=init;
         window.addEventListener('popstate', function(e){
-            alert('History navigated to: '+e.state.page);
             LaPa.historyAPI.state(e.state);
         },false);
     }
