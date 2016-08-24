@@ -4,7 +4,7 @@
     function init() {
         var PAWS=decodeURI('%F0%9F%90%BE');
         var LaPa = window.LaPa = {};
-        LaPa[PAWS]={'major':3,'minor':0,'build':17,'stable':true,'stage':'dev',toString: function() {
+        LaPa[PAWS]={'major':3,'minor':0,'build':20,'stable':true,'stage':'dev',toString: function() {
             return 'LaPa Web App FrameWork ' + this.major+'.'+this.minor+'.'+this.stage+'.'+this.build;
         }};
         var CONF = LaPa.CONF = LaPa.CONF || {};
@@ -47,7 +47,6 @@
             },
             'release':function (trigger) {
                 delete activeHooks[trigger];
-                alert('Released '+trigger)
             },
             'list': function () {
                 return Object.keys(HOOK);
@@ -78,6 +77,10 @@
                 }
             };
             xhr.send();
+        };
+        LaPa.importLib = function(id){
+            if(LaPa.LIB[id])return false;
+            return LaPa.LIB[id]=true;
         };
         LaPa.message=function (text) {
             alert(text); // TODO: Extend by user-defined Message containers
