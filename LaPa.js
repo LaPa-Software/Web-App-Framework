@@ -4,7 +4,7 @@
     function init() {
         var PAWS=decodeURI('%F0%9F%90%BE');
         var LaPa = window.LaPa = {};
-        LaPa[PAWS]={'major':3,'minor':0,'build':20,'stable':true,'stage':'dev',toString: function() {
+        LaPa[PAWS]={'major':3,'minor':0,'build':24,'stable':true,'stage':'alpha',toString: function() {
             return 'LaPa Web App FrameWork ' + this.major+'.'+this.minor+'.'+this.stage+'.'+this.build;
         }};
         var CONF = LaPa.CONF = LaPa.CONF || {};
@@ -16,7 +16,8 @@
                 if (data.page)LaPa.page(data.page,true);
             },
             'push': function (id, title, url) {
-                history.pushState({'page': id}, title, url ? url : id);
+                url=url ? url : (LaPa.CONF.staticUrl?null:id);
+                history.pushState({'page': id}, title, url);
             },
             'replace': function (id, title, url) {
                 history.replaceState({'page': id},title, url ? url : id)
