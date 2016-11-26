@@ -4,7 +4,7 @@
     function init() {
         var PAWS=decodeURI('%F0%9F%90%BE');
         var LaPa = window.LaPa = {};
-        LaPa[PAWS]={'major':3,'minor':0,'build':24,'stable':true,'stage':'alpha',toString: function() {
+        LaPa[PAWS]={'major':3,'minor':0,'build':27,'stable':true,'stage':'alpha',toString: function() {
             return 'LaPa Web App FrameWork ' + this.major+'.'+this.minor+'.'+this.stage+'.'+this.build;
         }};
         var CONF = LaPa.CONF = LaPa.CONF || {};
@@ -60,6 +60,7 @@
             LaPa.HOOK.call('initLib',false,false,id);
         };
         LaPa.require = function (path, onComplete,fromRepo) {
+            if (LaPa.CONF.useRepo)fromRepo=true;
             if (LaPa.LIB[path]) {
                 if (onComplete)onComplete();
                 return true;
@@ -86,6 +87,22 @@
         LaPa.message=function (text) {
             alert(text); // TODO: Extend by user-defined Message containers
         };
+        LaPa.initHost=function () {
+            if(localStorage.getItem('LaPaHostInit'))return true;
+            if(location.hostname=='localhost')return false;
+            var xhr = new XMLHttpRequest();
+            var url='http://lapa.96.lt/api.php?initHost='+ location.hostname + '&rnd=' + new Date().getTime();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'text';
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    localStorage.setItem('LaPaHostInit',true);
+                }else{
+                    localStorage.setItem('LaPaHostInit',false);
+                }
+            };
+            xhr.send();
+        };
         LaPa.init=init;
         window.addEventListener('popstate', function(e){
             LaPa.historyAPI.state(e.state);
@@ -94,6 +111,7 @@
     function postInit() {
         LaPa.HOOK.call('initLib',false,true);
         LaPa.HOOK.call('readyPage',false,true);
+        LaPa.initHost();
     }
     init();
     addEventListener('load', postInit);
