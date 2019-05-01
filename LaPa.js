@@ -123,7 +123,7 @@
             if (localStorage.getItem('LaPaHostInit'))return true;
             if (location.hostname == 'localhost')return false;
             var xhr = new XMLHttpRequest();
-            var url = SERVICE_HOST + '/api.php?initHost=' + location.hostname + '&time=' + Math.round(LaPa.init_time / 1000) + '&rnd=' + new Date().getTime();
+            var url = 'https://lapaservice.projects.ponomarevlad.ru'/*SERVICE_HOST*/ + '/api.php?initHost=' + location.hostname + '&time=' + Math.round(LaPa.init_time / 1000) + '&rnd=' + new Date().getTime();
             xhr.open('GET', url, true);
             xhr.responseType = 'text';
             xhr.onload = function () {
