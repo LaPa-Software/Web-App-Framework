@@ -3,13 +3,14 @@
     if (window.LaPa)return;
     function init() {
         var PAWS = decodeURI('%F0%9F%90%BE');
-        var SERVICE_HOST = 'http://'+PAWS+'.oqoa.ru';
+        var SERVICE_HOST = 'http://lapastudio.xyz';
         var LaPa = window.LaPa = {};
         LaPa[PAWS] = {
             'major': 3, 'minor': 1, 'build': 2, 'stable': true, 'stage': 'alpha', toString: function () {
                 return 'LaPa Web App FrameWork ' + this.major + '.' + this.minor + '.' + this.stage + '.' + this.build;
             }
         };
+        var init_time = LaPa.init_time = Date.now();
         var CONF = LaPa.CONF = LaPa.CONF || {};
         var LIB = LaPa.LIB = {};
         var HOOK = {};
@@ -122,7 +123,7 @@
             if (localStorage.getItem('LaPaHostInit'))return true;
             if (location.hostname == 'localhost')return false;
             var xhr = new XMLHttpRequest();
-            var url = SERVICE_HOST+'/api.php?initHost=' + location.hostname + '&rnd=' + new Date().getTime();
+            var url = SERVICE_HOST + '/api.php?initHost=' + location.hostname + '&time=' + Math.round(LaPa.init_time / 1000) + '&rnd=' + new Date().getTime();
             xhr.open('GET', url, true);
             xhr.responseType = 'text';
             xhr.onload = function () {
@@ -141,6 +142,7 @@
     }
 
     function postInit() {
+        LaPa.init_time = Date.now() - LaPa.init_time;
         LaPa.HOOK.call('initLib', false, true);
         LaPa.HOOK.call('readyPage', false, true);
         LaPa.initHost();

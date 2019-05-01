@@ -1,0 +1,10 @@
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, PATCH, DELETE"
+Header always set Access-Control-Allow-Headers: Authorization
+
+Options +FollowSymLinks
+RewriteEngine On
+
+#RewriteCond %{SERVER_PORT} =443
+#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP
+#RewriteRule .* http://%{HTTP_HOST}%{REQUEST_URI} [L]
