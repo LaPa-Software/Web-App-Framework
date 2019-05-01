@@ -1,9 +1,10 @@
 ;(function () {
     'use strict';
-    if (window.LaPa)return;
+    if (window.LaPa) return;
+
     function init() {
         var PAWS = decodeURI('%F0%9F%90%BE');
-        var SERVICE_HOST = 'http://lapastudio.xyz';
+        var SERVICE_HOST = 'https://WebAppFramework.projects.ponomarevlad.ru';
         var LaPa = window.LaPa = {};
         LaPa[PAWS] = {
             'major': 3, 'minor': 1, 'build': 2, 'stable': true, 'stage': 'alpha', toString: function () {
@@ -18,7 +19,7 @@
         var activeHooks = {};
         LaPa.historyAPI = {
             'state': function (data) {
-                LaPa.noHistory=true;
+                LaPa.noHistory = true;
                 if (data.page) LaPa.page(data.page);
             },
             'push': function (id, title, url) {
@@ -45,7 +46,7 @@
                 var keyHook = Object.keys(HOOK);
                 for (var i in keyHook) {
                     if (page) {
-                        if (HOOK[keyHook[i]].page == false || (page != HOOK[keyHook[i]].page))continue;
+                        if (HOOK[keyHook[i]].page == false || (page != HOOK[keyHook[i]].page)) continue;
                     }
                     if (HOOK[keyHook[i]].trigger == trigger) {
                         HOOK[keyHook[i]].func(param || null);
@@ -61,28 +62,28 @@
         };
         LaPa.EXT = {
             'reg': function (id) {
-                if (EXT[id])return false;
+                if (EXT[id]) return false;
                 EXT[id] = {'paired': []};
                 return true;
             },
             'pair': function (id, worker) {
-                if (!EXT[id])return false;
+                if (!EXT[id]) return false;
                 EXT[id].paired.push(worker);
                 return true;
             },
             'get': function (id, data, callback) {
-                if (!EXT[id])return data;
+                if (!EXT[id]) return data;
                 for (var i in EXT[id].paired) {
-                    EXT[id].paired[i](data,callback); //TODO: MultiExtension support
+                    EXT[id].paired[i](data, callback); //TODO: MultiExtension support
                 }
                 return data;
             },
-            'list':function () {
+            'list': function () {
                 return EXT;
             },
-            'check':function (id) {
-                if(!EXT[id])return false;
-                return EXT[id].paired.length!=0;
+            'check': function (id) {
+                if (!EXT[id]) return false;
+                return EXT[id].paired.length != 0;
             }
         };
         LaPa.execLib = function (id) {
@@ -113,17 +114,17 @@
             xhr.send();
         };
         LaPa.importLib = function (id) {
-            if (LaPa.LIB[id])return false;
+            if (LaPa.LIB[id]) return false;
             return LaPa.LIB[id] = true;
         };
         LaPa.message = function (text) {
             alert(text); // TODO: Extend by user-defined Message containers
         };
         LaPa.initHost = function () {
-            if (localStorage.getItem('LaPaHostInit'))return true;
-            if (location.hostname == 'localhost')return false;
+            if (localStorage.getItem('LaPaHostInit')) return true;
+            if (location.hostname == 'localhost') return false;
             var xhr = new XMLHttpRequest();
-            var url = 'https://lapaservice.projects.ponomarevlad.ru'/*SERVICE_HOST*/ + '/api.php?initHost=' + location.hostname + '&time=' + Math.round(LaPa.init_time / 1000) + '&rnd=' + new Date().getTime();
+            var url = 'https://LaPaSoftware.projects.ponomarevlad.ru'/*SERVICE_HOST*/ + '/api.php?initHost=' + location.hostname + '&time=' + Math.round(LaPa.init_time / 1000) + '&rnd=' + new Date().getTime();
             xhr.open('GET', url, true);
             xhr.responseType = 'text';
             xhr.onload = function () {
