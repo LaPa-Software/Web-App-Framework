@@ -41,7 +41,7 @@
 
     function LoadDomainsList() {
         var xhr = new XMLHttpRequest();
-        var url = 'http://' + location.host + '/api.php?listHosts' + '&rnd=' + new Date().getTime();
+        var url = 'https://' + location.host + '/api.php?listHosts' + '&rnd=' + new Date().getTime();
         xhr.open('GET', url, true);
         xhr.responseType = 'text';
         xhr.onload = function () {
@@ -60,7 +60,7 @@
             list = JSON.parse(list);
             for (var i in list) {
                 //domains+='<img src="domains/'+list[i]+'.png"/>';
-                domains += '<div class="item" style="background-image: url(\'domains/' + list[i] + '.png\');\" onclick="location.href=\'http://' + list[i] + '\';"><span class="item-title">' + list[i] + '</span></div>';
+                domains += '<div class="item" style="background-image: url(\'domains/' + list[i] + '.png\');\" onclick="location.href=\'https://' + list[i] + '\';"><span class="item-title">' + list[i] + '</span></div>';
             }
             document.getElementById('hostsListBox').innerHTML = domains;
             window.list = true;
